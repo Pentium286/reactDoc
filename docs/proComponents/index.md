@@ -13,6 +13,14 @@ group:
 
 ProForm 是基于 antd Form 的可降级封装，与 antd 功能完全对齐，但是在其之上还增加一些预设行为和多种布局。这些布局之间可以无缝切换，并且拥有公共的 API。
 
+| 布局 | 使用场景 |
+| --- | --- |
+| [ProForm](/components/form#proform) | 标准 Form，增加了 `onFinish` 中自动 `loading` 和根据 `request` 自动获取默认值的功能。 |
+| [ModalForm\|DrawerForm](/components/modal-form) | 在 ProForm 的基础上增加了 `trigger` ，无需维护 `visible` 状态。 |
+| [QueryFilter](/components/query-filter) | 一般用于作为筛选表单，需要配合其他数据展示组件使用。 |
+| [LightFilter](/components/query-filter) | 一般用于作为行内内置的筛选，比如卡片操作栏和表格操作栏。 |
+| [StepsForm](/components/steps-form) | 分步表单，需要配置 StepForm 使用。 |
+
 ```tsx
 import {
   AlipayCircleOutlined,
