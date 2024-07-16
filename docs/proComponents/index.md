@@ -1,7 +1,7 @@
 ---
 nav: 
   title: ProComponents 表单
-  order: -1
+  order: 2
 group:
   title: 基础
   order: -1
