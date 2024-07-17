@@ -7,7 +7,7 @@ group:
   order: -1
 ---
 
-# 何时使用 ProForm
+## 何时使用 ProForm
 
 当你想快速实现一个表单但不想花太多时间去布局时 ProForm 是最好的选择。
 
@@ -371,3 +371,92 @@ export default () => {
 };
 ```
 
+## 数据转化
+
+很多时候组件需要的数据和后端需要的数据之间不能完全匹配，ProForm 为了解决这个问题提供了 `transform` 和 `convertValue` 两个 API 来处理这种情况。
+
+### convertValue 前置转化
+
+convertValue 发生在组件获得数据之前，一般是后端直接给前端的数据，有时需要精加工一下。
+
+```tsx | pure
+   export type SearchConvertKeyFn =
+    (value: any, field: NamePath)=>string | boolean | Record<string, any>;
+  /**
+   * @name 获取时转化值，一般用于将数据格式化为组件接收的格式
+   * @param value 字段的值
+   * @param namePath 字段的name
+   * @returns 字段新的值
+   *
+   * @example a,b => [a,b]
+   * convertValue:(value,namePath)=>value.split(",")
+   * @example string =>json
+   * convertValue:(value,namePath)=>JSON.parse(value)
+   * @example number =>date
+   * convertValue:(value,namePath)=>Moment(value)
+   * @example YYYY-MM-DD => date
+   * convertValue:(value,namePath)=>Moment(value,"YYYY-MM-DD")
+   * @example  string => object
+   * convertValue:(value,namePath)=>({value,label:value})
+   */
+  convertValue?: SearchConvertKeyFn;
+```
+
+### transform 提交时转化
+
+transform 发生在提交的时候，一般来说都是吐给后端的存在数据库里的数据。
+
+为了方便大家使用，`ProFormDependency` 和 `formRef` 都支持了 `transform`，可以获取到被转化后的值。
+
+```tsx | pure
+<ProFormDependency>
+  {(value, form) => {
+    // value 被 transform转化之后的值
+    // form 当前的formRef，可以获取未转化的值
+    return ReactNode;
+  }}
+</ProFormDependency>
+```
+
+formRef 内置了几个方法来获取转化之后的值，这也是相比 antd 的 Form 新增的功能，详细可以看 ProFormInstance 的类型定义。
+
+```tsx | pure
+  /** 获取被 ProForm 格式化后的所有数据  */
+  getFieldsFormatValue?: (nameList?: true) => T;
+  /** 获取格式化之后的单个数据 */
+  getFieldFormatValue?: (nameList?: NamePath) => T;
+  /** 获取格式化之后的单个数据 */
+  getFieldFormatValueObject?: (nameList?: NamePath) => T;
+  /** 验字段后返回格式化之后的所有数据*/
+  validateFieldsReturnFormatValue?: (nameList?: NamePath[]) => Promise<T>;
+```
+
+```tsx | pure
+  export type SearchTransformKeyFn = (
+    value: any,
+    namePath: string,
+    allValues: any,
+  ) => string | Record<string, any>;
+
+  /**
+   * @name 提交时转化值，一般用于将值转化为提交的数据
+   * @param value 字段的值
+   * @param namePath 字段的name
+   * @param allValues 所有的字段
+   * @returns 字段新的值，如果返回对象，会和所有值深度 merge 一次
+   *
+   * @example {name:[a,b] => {name:a,b }
+   * transform: (value,namePath,allValues)=> value.join(",")
+   * @example {name: string => { newName:string }
+   * transform: (value,namePath,allValues)=> { newName:value }
+   * @example {name:moment} => {name:string
+   * transform: (value,namePath,allValues)=> value.format("YYYY-MM-DD")
+   * @example {name:moment}=> {name:时间戳}
+   * transform: (value,namePath,allValues)=> value.valueOf()
+   * @example {name:{value,label}} => { name:string}
+   * transform: (value,namePath,allValues)=> value.value
+   * @example {name:{value,label}} => { valueName,labelName  }
+   * transform: (value)=>{valueName:value.value,labelName:value.name}
+   */
+  transform?: SearchTransformKeyFn;
+```
