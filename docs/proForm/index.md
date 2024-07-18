@@ -1,10 +1,7 @@
 ---
 nav: 
-  title: ProForm 高级表单
+  title: ProForm
   order: 2
-group:
-  title: 基础
-  order: -1
 ---
 
 # ProForm 高级表单

@@ -1,10 +1,7 @@
 ---
 nav: 
-  title: Ant Design 表单
+  title: Ant Design
   order: 1
-group:
-  title: 基础
-  order: -1
 ---
 
 # Ant Design 表单

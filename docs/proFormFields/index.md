@@ -1,10 +1,7 @@
 ---
 nav: 
-  title: ProFormFields 表单项
+  title: ProFormFields
   order: 2
-group:
-  title: 基础
-  order: -1
 ---
 
 # ProFormFields 表单项
