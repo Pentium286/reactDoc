@@ -1,7 +1,7 @@
 ---
-nav: 
-  title: ProFormFields
-  order: 2
+group: 
+  title: 表单项
+  order: 1
 ---
 
 # ProFormFields 表单项
