@@ -7,7 +7,9 @@ group:
   order: -1
 ---
 
-# 初始化
+# 说明
+
+本文档整理了 erp、智能品相后台、墨墨平台端，用到的表单模式，提供了所见即所得的例子和代码
 
 ## 环境准备
 
@@ -15,7 +17,7 @@ group:
 
 ```bash
 $ node -v
-v14.19.1
+v16.20.2
 ```
 
 确保正确安装了 [Ant Design](https://ant-design.antgroup.com/index-cn) 且版本和项目里使用的版本能够对应上
